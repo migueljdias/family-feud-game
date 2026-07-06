@@ -1,0 +1,608 @@
+/**
+ * styles.css
+ * Complete styling for Family Feud game
+ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-bg: #1a1a2e;
+    --secondary-bg: #16213e;
+    --accent-gold: #d4af37;
+    --accent-blue: #0f3460;
+    --accent-light: #e94560;
+    --text-light: #ffffff;
+    --text-muted: #a0a0a0;
+    --success: #2ecc71;
+    --danger: #e74c3c;
+    --warning: #f39c12;
+    --border-radius: 8px;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--primary-bg);
+    color: var(--text-light);
+    overflow: hidden;
+}
+
+#app {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ===== SCREENS ===== */
+
+.screen {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.screen.active {
+    display: flex;
+}
+
+/* ===== SETUP SCREEN ===== */
+
+#setupScreen {
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+}
+
+.setup-container {
+    width: 90%;
+    max-width: 600px;
+    background-color: var(--secondary-bg);
+    border: 3px solid var(--accent-gold);
+    border-radius: var(--border-radius);
+    padding: 40px 30px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.title {
+    font-size: 4rem;
+    font-weight: bold;
+    text-align: center;
+    color: var(--accent-gold);
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    letter-spacing: 2px;
+}
+
+.subtitle {
+    font-size: 1.3rem;
+    text-align: center;
+    color: var(--accent-blue);
+    margin-bottom: 30px;
+}
+
+.setup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-group label {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--accent-gold);
+}
+
+.form-group input[type="number"],
+.form-group input[type="text"] {
+    padding: 12px;
+    font-size: 1rem;
+    background-color: var(--primary-bg);
+    color: var(--text-light);
+    border: 2px solid var(--accent-blue);
+    border-radius: var(--border-radius);
+    transition: border-color 0.3s ease;
+}
+
+.form-group input[type="number"]:focus,
+.form-group input[type="text"]:focus {
+    outline: none;
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+}
+
+.teams-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.teams-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.teams-container::-webkit-scrollbar-track {
+    background: var(--primary-bg);
+    border-radius: 10px;
+}
+
+.teams-container::-webkit-scrollbar-thumb {
+    background: var(--accent-gold);
+    border-radius: 10px;
+}
+
+.team-input-group {
+    background-color: var(--primary-bg);
+    border: 2px solid var(--accent-blue);
+    border-radius: var(--border-radius);
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.team-input-group h3 {
+    color: var(--accent-gold);
+    font-size: 1.1rem;
+}
+
+.player-input {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.player-input input {
+    flex: 1;
+    padding: 8px;
+    background-color: var(--secondary-bg);
+    color: var(--text-light);
+    border: 1px solid var(--accent-blue);
+    border-radius: var(--border-radius);
+    font-size: 0.95rem;
+}
+
+.player-input button {
+    padding: 8px 12px;
+    background-color: var(--danger);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.player-input button:hover {
+    background-color: #c0392b;
+}
+
+.add-player-btn {
+    padding: 8px 12px;
+    background-color: var(--success);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+.add-player-btn:hover {
+    background-color: #27ae60;
+}
+
+.setup-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* ===== BUTTONS ===== */
+
+.btn {
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-primary {
+    background-color: var(--accent-gold);
+    color: var(--primary-bg);
+    flex: 1;
+}
+
+.btn-primary:hover {
+    background-color: #e8c547;
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+}
+
+.btn-secondary {
+    background-color: var(--accent-blue);
+    color: var(--text-light);
+    flex: 1;
+}
+
+.btn-secondary:hover {
+    background-color: #1a4d7a;
+    transform: scale(1.02);
+}
+
+.btn-small {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+}
+
+.btn-control {
+    background-color: var(--accent-blue);
+    color: var(--text-light);
+    flex: 1;
+}
+
+.btn-control:hover {
+    background-color: #1a4d7a;
+}
+
+.btn-accent {
+    background-color: var(--accent-light);
+    color: white;
+}
+
+.btn-accent:hover {
+    background-color: #d63447;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ===== GAME SCREEN ===== */
+
+#gameScreen {
+    flex-direction: column;
+    background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    gap: 20px;
+}
+
+.scoreboard {
+    flex: 1;
+}
+
+.scores-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+}
+
+.score-card {
+    background-color: var(--secondary-bg);
+    border: 3px solid var(--accent-blue);
+    border-radius: var(--border-radius);
+    padding: 15px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.score-card.active {
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.5);
+    transform: scale(1.05);
+}
+
+.score-card-team {
+    font-size: 0.9rem;
+    color: var(--accent-blue);
+    font-weight: bold;
+}
+
+.score-card-value {
+    font-size: 2.5rem;
+    color: var(--accent-gold);
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.score-card-players {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    max-height: 40px;
+    overflow: hidden;
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+}
+
+.game-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.question-display {
+    background: linear-gradient(135deg, var(--accent-blue) 0%, #0a2342 100%);
+    border: 4px solid var(--accent-gold);
+    border-radius: var(--border-radius);
+    padding: 30px;
+    text-align: center;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.question-text {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--text-light);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.answer-board {
+    flex: 1;
+}
+
+.answers-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.answer-slot {
+    background-color: var(--secondary-bg);
+    border: 3px solid var(--accent-gold);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.answer-slot:hover:not(.revealed) {
+    background-color: var(--accent-blue);
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+}
+
+.answer-slot.revealed {
+    background: linear-gradient(135deg, var(--accent-gold) 0%, #c89f2a 100%);
+    border-color: #f0d85f;
+    cursor: default;
+}
+
+.answer-number {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 5px;
+}
+
+.answer-text {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--text-light);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    line-height: 1.2;
+}
+
+.answer-slot.revealed .answer-text {
+    color: var(--primary-bg);
+}
+
+.answer-points {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--accent-light);
+    display: none;
+}
+
+.answer-slot.revealed .answer-points {
+    display: block;
+    color: var(--primary-bg);
+}
+
+.round-info {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: var(--secondary-bg);
+    border: 2px solid var(--accent-blue);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    font-size: 1.3rem;
+}
+
+.current-team,
+.bank-display,
+.strikes {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.current-team span:first-child,
+.bank-display span:first-child,
+.strikes span:first-child {
+    color: var(--text-muted);
+    font-weight: bold;
+}
+
+.active-team-name {
+    color: var(--accent-gold);
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.bank-value {
+    color: var(--success);
+    font-weight: bold;
+    font-size: 1.8rem;
+}
+
+.strike-counter {
+    color: var(--danger);
+    font-weight: bold;
+    font-size: 1.5rem;
+    letter-spacing: 3px;
+}
+
+.game-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.control-row {
+    display: flex;
+    gap: 12px;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+@media (max-width: 1024px) {
+    .answers-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+    }
+
+    .answer-slot {
+        padding: 12px;
+    }
+
+    .answer-text {
+        font-size: 1.3rem;
+    }
+
+    .question-text {
+        font-size: 1.5rem;
+    }
+
+    .score-card-value {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .answers-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .question-text {
+        font-size: 1.3rem;
+    }
+
+    .answer-text {
+        font-size: 1.1rem;
+    }
+
+    .scores-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .round-info {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .control-row {
+        flex-direction: column;
+    }
+
+    .game-header {
+        flex-direction: column;
+    }
+}
+
+/* ===== ANIMATIONS ===== */
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes reveal {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.answer-slot.revealed {
+    animation: reveal 0.5s ease-out;
+}
+
+.screen.active {
+    animation: slideIn 0.5s ease-out;
+}
+
+.score-card.active {
+    animation: pulse 1s ease-in-out infinite;
+}
