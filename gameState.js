@@ -1,6 +1,6 @@
 /**
  * gameState.js
- * Manages all game state and logic
+ * Manages all game state and logic with answer verification
  */
 
 class GameState {
@@ -53,23 +53,84 @@ class GameState {
     }
 
     /**
-     * Reveal an answer and add points to bank
+     * Verify an answer and check if it matches any of the top 8 answers
+     * @param {string} userAnswer - The answer entered by the user
+     * @returns {Object} { found: boolean, answer: Object or null, answerIndex: number or -1 }
+     */
+    verifyAnswer(userAnswer) {
+        const question = this.getCurrentQuestion();
+        const cleanAnswer = userAnswer.trim().toLowerCase();
+
+        // Check each answer
+        for (let i = 0; i < question.answers.length; i++) {
+            if (this.currentRound.revealed.includes(i)) {
+                continue; // Skip already revealed answers
+            }
+
+            const answerText = question.answers[i].text.toLowerCase();
+            
+            // Check for exact or partial match
+            if (this.isAnswerMatch(cleanAnswer, answerText)) {
+                return {
+                    found: true,
+                    answer: question.answers[i],
+                    answerIndex: i
+                };
+            }
+        }
+
+        return {
+            found: false,
+            answer: null,
+            answerIndex: -1
+        };
+    }
+
+    /**
+     * Check if user answer matches the expected answer
+     * Allows for partial matches and common variations
+     * @param {string} userAnswer - Cleaned user input
+     * @param {string} expectedAnswer - Cleaned expected answer
+     * @returns {boolean}
+     */
+    isAnswerMatch(userAnswer, expectedAnswer) {
+        // Exact match
+        if (userAnswer === expectedAnswer) {
+            return true;
+        }
+
+        // Check if user answer contains key words from expected answer
+        const userWords = userAnswer.split(' ').filter(w => w.length > 2);
+        const expectedWords = expectedAnswer.split(' ').filter(w => w.length > 2);
+
+        // All expected words should be in user answer
+        if (userWords.length > 0 && expectedWords.length > 0) {
+            const matchCount = expectedWords.filter(word => 
+                userWords.some(uWord => uWord.includes(word) || word.includes(uWord))
+            ).length;
+            
+            return matchCount >= Math.ceil(expectedWords.length * 0.6); // 60% match
+        }
+
+        return false;
+    }
+
+    /**
+     * Reveal an answer
      * @param {number} answerIndex - Index of answer to reveal
-     * @returns {Object} Answer object that was revealed
+     * @returns {Object} Answer object
      */
     revealAnswer(answerIndex) {
         const question = this.getCurrentQuestion();
         
-        // Check if answer already revealed
-        if (this.currentRound.revealed.includes(answerIndex)) {
-            return null;
+        if (!this.currentRound.revealed.includes(answerIndex)) {
+            const answer = question.answers[answerIndex];
+            this.currentRound.revealed.push(answerIndex);
+            this.currentRound.bank += answer.points;
+            return answer;
         }
 
-        const answer = question.answers[answerIndex];
-        this.currentRound.revealed.push(answerIndex);
-        this.currentRound.bank += answer.points;
-
-        return answer;
+        return null;
     }
 
     /**
@@ -83,7 +144,7 @@ class GameState {
 
     /**
      * Log a strike (wrong answer)
-     * @returns {boolean} True if strike added, false if game over (3 strikes)
+     * @returns {boolean} True if game continues, false if 3 strikes reached
      */
     logStrike() {
         this.currentRound.strikes++;
@@ -146,13 +207,6 @@ class GameState {
         
         // Rotate to next team
         this.switchActiveTeam();
-    }
-
-    /**
-     * Clear the board (reset revealed answers for current question)
-     */
-    clearBoard() {
-        this.currentRound.revealed = [];
     }
 
     /**
