@@ -39,45 +39,60 @@
                 <div class="scoreboard">
                     <div id="scoreboardContainer" class="scores-grid"></div>
                 </div>
-                <div class="controls">
-                    <button id="nextQuestionBtn" class="btn btn-small">Next Question</button>
-                    <button id="clearBoardBtn" class="btn btn-small">Clear Board</button>
-                </div>
             </div>
 
             <div class="game-main">
-                <div class="question-display">
-                    <div id="questionText" class="question-text">Ready to play?</div>
-                </div>
+                <div class="game-layout">
+                    <!-- Left Panel: Question & Answer Input -->
+                    <div class="question-panel">
+                        <div class="question-display">
+                            <div id="questionText" class="question-text">Ready to play?</div>
+                        </div>
 
-                <div class="answer-board">
-                    <div id="answersContainer" class="answers-grid"></div>
-                </div>
+                        <div class="answer-input-section">
+                            <label for="answerInput">Enter Answer:</label>
+                            <input 
+                                type="text" 
+                                id="answerInput" 
+                                placeholder="Type answer and press Enter..." 
+                                autocomplete="off"
+                            >
+                            <button id="submitAnswerBtn" class="btn btn-primary">Submit Answer</button>
+                        </div>
 
-                <div class="round-info">
-                    <div class="current-team">
-                        <span>Active Team:</span>
-                        <span id="activeTeamName" class="active-team-name">Team 1</span>
+                        <div class="round-info">
+                            <div class="current-team">
+                                <span>Active Team:</span>
+                                <span id="activeTeamName" class="active-team-name">Team 1</span>
+                            </div>
+                            <div class="bank-display">
+                                <span>Bank:</span>
+                                <span id="bankValue" class="bank-value">0</span>
+                            </div>
+                            <div class="strikes">
+                                <span>Strikes:</span>
+                                <span id="strikeCounter" class="strike-counter"></span>
+                            </div>
+                        </div>
+
+                        <div class="left-controls">
+                            <button id="bankPointsBtn" class="btn btn-control btn-accent">Bank Points</button>
+                            <button id="switchTeamBtn" class="btn btn-control">Switch Team</button>
+                            <button id="nextQuestionBtn" class="btn btn-control">Next Question</button>
+                        </div>
                     </div>
-                    <div class="bank-display">
-                        <span>Bank:</span>
-                        <span id="bankValue" class="bank-value">0</span>
-                    </div>
-                    <div class="strikes">
-                        <span id="strikeCounter" class="strike-counter"></span>
+
+                    <!-- Right Panel: Answer Board -->
+                    <div class="answer-panel">
+                        <div class="answer-board">
+                            <div id="answersContainer" class="answers-grid"></div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="game-controls">
-                <div class="control-row">
-                    <button id="logStrikeBtn" class="btn btn-control">Log Strike</button>
-                    <button id="switchTeamBtn" class="btn btn-control">Switch Team</button>
-                    <button id="bankPointsBtn" class="btn btn-control btn-accent">Bank Points</button>
-                </div>
-                <div class="control-row">
-                    <button id="resetGameBtn" class="btn btn-secondary">Reset Game</button>
-                </div>
+            <div class="game-footer">
+                <button id="resetGameBtn" class="btn btn-secondary">Reset Game</button>
             </div>
         </div>
     </div>
