@@ -10,6 +10,22 @@ class UI {
     static showGameScreen() {
         document.getElementById('setupScreen').classList.remove('active');
         document.getElementById('gameScreen').classList.add('active');
+        // Add event delegation for answer slots
+        this.setupAnswerClickHandler();
+    }
+
+    /**
+     * Setup event delegation for answer slot clicks
+     */
+    static setupAnswerClickHandler() {
+        const answersContainer = document.getElementById('answersContainer');
+        answersContainer.addEventListener('click', (e) => {
+            const slot = e.target.closest('.answer-slot');
+            if (slot && !slot.classList.contains('revealed')) {
+                const answerIndex = parseInt(slot.dataset.answerIndex);
+                Events.handleAnswerClick(answerIndex);
+            }
+        });
     }
 
     /**
@@ -123,25 +139,22 @@ class UI {
             const slot = document.createElement('div');
             slot.className = `answer-slot ${isRevealed ? 'revealed' : ''}`;
             slot.dataset.answerIndex = index;
-            slot.innerHTML = `
-                <div class="answer-number">${index + 1}</div>
-                <div class="answer-text">${isRevealed ? answer.text : '?'}</div>
-                <div class="answer-points">${answer.points} pts</div>
-            `;
-            container.appendChild(slot);
-
-            // Add click handler for unrevealed answers
-            if (!isRevealed) {
-                slot.addEventListener('click', () => {
-                    Events.handleAnswerClick(index);
-                });
-                // Add keyboard support (1-8)
-                slot.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        Events.handleAnswerClick(index);
-                    }
-                });
+            
+            if (isRevealed) {
+                slot.innerHTML = `
+                    <div class="answer-number">${index + 1}</div>
+                    <div class="answer-text">${answer.text}</div>
+                    <div class="answer-points">${answer.points} pts</div>
+                `;
+            } else {
+                slot.innerHTML = `
+                    <div class="answer-number">${index + 1}</div>
+                    <div class="answer-text">?</div>
+                    <div class="answer-points">${answer.points} pts</div>
+                `;
             }
+            
+            container.appendChild(slot);
         });
     }
 
@@ -150,18 +163,18 @@ class UI {
      */
     static revealAnswer(answerIndex) {
         const slot = document.querySelector(`[data-answer-index="${answerIndex}"]`);
-        if (slot) {
-            const answer = gameState.revealAnswer(answerIndex);
-            if (answer) {
-                slot.classList.add('revealed');
-                slot.innerHTML = `
-                    <div class="answer-number">${answerIndex + 1}</div>
-                    <div class="answer-text">${answer.text}</div>
-                    <div class="answer-points">${answer.points} pts</div>
-                `;
-                this.playRevealAnimation();
-                this.updateRoundInfo();
-            }
+        if (slot && !slot.classList.contains('revealed')) {
+            const question = gameState.getCurrentQuestion();
+            const answer = question.answers[answerIndex];
+            
+            slot.classList.add('revealed');
+            slot.innerHTML = `
+                <div class="answer-number">${answerIndex + 1}</div>
+                <div class="answer-text">${answer.text}</div>
+                <div class="answer-points">${answer.points} pts</div>
+            `;
+            this.playRevealAnimation();
+            this.updateRoundInfo();
         }
     }
 
